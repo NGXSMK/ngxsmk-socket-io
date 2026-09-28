@@ -5,7 +5,7 @@ import { SocketIoModule } from './socket-io.module';
 import { provideSocketIo } from './socket-io.providers';
 import { SocketIoService, injectSocketIo } from './socket-io.service';
 import { SOCKET_IO_CLIENT_FACTORY, SOCKET_IO_CONFIG, resolveSocketIoUrl } from './socket-io.tokens';
-import { createMockSocketFactory, type MockFactoryState } from './testing/mock-socket';
+import { createMockSocketFactory, type MockFactoryState } from 'ngxsmk-socket-io/testing';
 
 describe('resolveSocketIoUrl', () => {
   it('returns the base url when no namespace is set', () => {

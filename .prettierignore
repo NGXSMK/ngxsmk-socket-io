@@ -6,6 +6,7 @@
     "node_modules",
     "package-lock.json",
     ".angular",
+    ".tmp",
     "examples/chat-server/node_modules",
     "examples/consumer/node_modules"
   ]
