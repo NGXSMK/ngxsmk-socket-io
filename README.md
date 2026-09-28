@@ -6,36 +6,40 @@ Modern Angular integration for Socket.IO.
 [![docs](https://img.shields.io/badge/docs-live-19c6c6)](https://smk-web-projects.github.io/ngxsmk-socket-io/)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-`ngxsmk-socket-io` is a lightweight, tree-shakeable Angular library that wraps the official
-`socket.io-client` with dependency injection, RxJS Observables, Signals, strong TypeScript event
-maps, acknowledgements, runtime reconfiguration, and SSR-safe defaults.
+Lightweight, tree-shakeable Angular wrapper around the official `socket.io-client` with
+dependency injection, RxJS Observables, Signals, typed event maps, acknowledgements,
+runtime reconfiguration, and SSR-safe defaults.
 
-**Docs:** [Overview](https://smk-web-projects.github.io/ngxsmk-socket-io/) ·
-[Guide](https://smk-web-projects.github.io/ngxsmk-socket-io/guide) ·
-[Playground](https://smk-web-projects.github.io/ngxsmk-socket-io/playground) ·
+**Docs:** [Overview](https://smk-web-projects.github.io/ngxsmk-socket-io/) -
+[Guide](https://smk-web-projects.github.io/ngxsmk-socket-io/guide) -
+[Playground](https://smk-web-projects.github.io/ngxsmk-socket-io/playground) -
 [Advanced API](https://smk-web-projects.github.io/ngxsmk-socket-io/api)
 
-## Features explained
+---
+
+## Features
 
 | Feature | What it does |
 | --- | --- |
-| **Standalone providers** | `provideSocketIo(config)` registers the service for `bootstrapApplication`. |
-| **Named multi-socket** | `provideSocketIo('chat', config)` + `injectSocketIo('chat')` for isolated endpoints. |
-| **NgModule API** | `SocketIoModule.forRoot` / `forFeature` for classic module apps. |
-| **Typed event maps** | `injectSocketIo<Listen, Emit>()` checks event names and payloads at compile time. |
-| **RxJS listeners** | `fromEvent` / `on` / `once` — shared, ref-counted, auto-cleanup. |
-| **Emit + ack** | `emit`, `emitWithAck`, and `timeout(ms)` Promise helpers. |
-| **Signals + Observables** | `connected`, `recovered`, `connectionState` with `$` Observable mirrors. |
-| **Connect replay** | Late `connect$` / `fromEvent('connect')` subscribers still fire if already connected. |
-| **Auth helpers** | `setAuth`, `authenticateAndConnect` for post-login handshakes. |
-| **Namespaces** | Config `namespace` and `of('/chat')` without confusing Engine.IO `path`. |
-| **Runtime config** | `updateConfig` / `recreateSocket` when URL or auth changes after bootstrap. |
-| **Native escape hatch** | `getSocket()` returns the official client when you need an unwrapped API. |
-| **SSR-safe** | No browser socket during server render; listen APIs return `EMPTY`. |
-| **Testing entry** | `ngxsmk-socket-io/testing` mock factory for unit tests. |
-| **Zoneless-friendly** | No Zone.js dependency; Signals work in zoneless apps. |
-| **DestroyRef cleanup** | Listeners and clients are torn down with the owning injector. |
-| **Tree-shakeable** | Small surface, `sideEffects: false`. |
+| Standalone providers | `provideSocketIo(config)` for `bootstrapApplication` |
+| Named multi-socket | `provideSocketIo('chat', config)` + `injectSocketIo('chat')` |
+| NgModule API | `SocketIoModule.forRoot` / `forFeature` |
+| Typed event maps | `injectSocketIo<Listen, Emit>()` checks names and payloads |
+| RxJS listeners | `fromEvent` / `on` / `once` - shared, ref-counted cleanup |
+| Emit + ack | `emit`, `emitWithAck`, `timeout(ms)` |
+| Signals + Observables | `connected`, `recovered`, `connectionState` (+ `$` mirrors) |
+| Connect replay | Late `connect$` subscribers still fire if already connected |
+| Auth helpers | `setAuth`, `authenticateAndConnect` |
+| Namespaces | Config `namespace` and `of('/chat')` |
+| Runtime config | `updateConfig` / `recreateSocket` |
+| Native escape hatch | `getSocket()` for the official client |
+| SSR-safe | No browser socket on the server; listen APIs return `EMPTY` |
+| Testing entry | `ngxsmk-socket-io/testing` mock factory |
+| Zoneless-friendly | No Zone.js dependency |
+| DestroyRef cleanup | Tear down with the owning injector |
+| Tree-shakeable | Small surface, `sideEffects: false` |
+
+---
 
 ## Installation
 
@@ -51,6 +55,8 @@ npm install ngxsmk-socket-io socket.io-client
 | `@angular/common` | `>=17` |
 | `rxjs` | `>=7.8` |
 | `socket.io-client` | `^4` |
+
+---
 
 ## Standalone setup
 
@@ -78,7 +84,9 @@ bootstrapApplication(AppComponent, {
 | `url` | Scheme + host[:port]. Trailing slashes are stripped. |
 | `namespace?` | Socket.IO namespace (e.g. `/chat`). Do not also append it to `url`. |
 | `autoConnect?` | Default `true` in the browser. Use `false` for login-gated connect. Ignored on SSR. |
-| `options?` | Pass-through to `socket.io-client` (auth, transports, reconnection, path, query, TLS under Node, …). |
+| `options?` | Pass-through to `socket.io-client` (auth, transports, reconnection, path, query, ...). |
+
+---
 
 ## NgModule setup
 
@@ -98,6 +106,8 @@ export class AppModule {}
 
 Named feature sockets: `SocketIoModule.forFeature('chat', config)`.
 
+---
+
 ## Basic usage
 
 ```ts
@@ -107,7 +117,6 @@ import { SocketIoService } from 'ngxsmk-socket-io';
 @Component({
   standalone: true,
   template: `
-    <p>{{ socket.connectionState() }}</p>
     <button type="button" (click)="send()">Send</button>
   `,
 })
@@ -126,6 +135,10 @@ export class AppComponent {
 }
 ```
 
+In templates, bind Signals with `socket.connectionState()` and `socket.connected()`.
+
+---
+
 ## Strong typing
 
 ```ts
@@ -137,7 +150,10 @@ interface ServerToClientEvents {
 interface ClientToServerEvents {
   sendMessage: (payload: { text: string }) => void;
   joinRoom: (roomId: string) => void;
-  ping: (payload: { id: string }, ack?: (response: { ok: boolean }) => void) => void;
+  ping: (
+    payload: { id: string },
+    ack?: (response: { ok: boolean }) => void,
+  ) => void;
 }
 
 import { injectSocketIo } from 'ngxsmk-socket-io';
@@ -154,6 +170,8 @@ socket.emit('joinRoom', 'room-123');
 
 Incorrect event names or payloads fail TypeScript checking where possible.
 
+---
+
 ## Event listening
 
 ```ts
@@ -168,6 +186,8 @@ socket.removeAllListeners();
 Observables are lazy, shared across subscribers, and remove the Socket.IO listener when the last
 subscription unsubscribes. After `recreateSocket()`, active `fromEvent` subscribers re-attach.
 
+---
+
 ## Event emitting and acknowledgements
 
 ```ts
@@ -177,9 +197,11 @@ const ack = await socket.emitWithAck('ping', { id: '1' });
 const timed = await socket.timeout(1000).emitWithAck('ping', { id: '1' });
 ```
 
-- **`emit`** — fire-and-forget (typed args).
-- **`emitWithAck`** — Promise that resolves with the server acknowledgement.
-- **`timeout(ms)`** — returns `{ emit, emitWithAck }` with that deadline; ack Promises reject on timeout.
+- **`emit`** - fire-and-forget (typed args)
+- **`emitWithAck`** - Promise that resolves with the server acknowledgement
+- **`timeout(ms)`** - returns timed `emit` / `emitWithAck` helpers; ack Promises reject on timeout
+
+---
 
 ## Authentication
 
@@ -192,7 +214,7 @@ provideSocketIo({
 });
 ```
 
-Update credentials later without logging them:
+Update credentials later:
 
 ```ts
 socket.setAuth({ token: refreshedToken });
@@ -209,6 +231,8 @@ provideSocketIo({
 socket.authenticateAndConnect({ token });
 ```
 
+---
+
 ## Connection control
 
 ```ts
@@ -217,7 +241,9 @@ socket.disconnect(); // close without destroying the service (alias: close())
 socket.isConnected(); // imperative boolean
 ```
 
-Prefer Signals in templates: `socket.connected()`, `socket.connectionState()`.
+Prefer Signals in templates: `socket.connected()` and `socket.connectionState()`.
+
+---
 
 ## Connection lifecycle
 
@@ -236,10 +262,18 @@ socket.reconnectFailed$;
 socket.connectionState$; // Observable
 socket.connectionState(); // Signal
 socket.connected(); // Signal
-socket.recovered(); // Signal — Socket.IO connection state recovery
+socket.recovered(); // Signal - connection state recovery
 ```
 
-Possible `connectionState` values: `disconnected` · `connecting` · `connected` · `reconnecting` · `error`.
+Possible `connectionState` values:
+
+- `disconnected`
+- `connecting`
+- `connected`
+- `reconnecting`
+- `error`
+
+---
 
 ## Runtime config
 
@@ -251,7 +285,7 @@ socket.updateConfig(
     url: 'https://api.example.com',
     options: { auth: { token } },
   },
-  { reconnect: true }, // default — recreate + connect
+  { reconnect: true }, // default - recreate + connect
 );
 
 // Or store config only, then connect yourself:
@@ -261,6 +295,8 @@ socket.connect();
 
 socket.getConfig(); // read-only snapshot
 ```
+
+---
 
 ## Namespaces
 
@@ -278,7 +314,9 @@ const chat = socket.of('/chat');
 chat.emit('joinRoom', 'general');
 ```
 
-Namespace is not Engine.IO `path` — keep path in `options.path` (default `/socket.io`).
+Namespace is not Engine.IO `path` - keep path in `options.path` (default `/socket.io`).
+
+---
 
 ## Multiple sockets
 
@@ -299,6 +337,8 @@ const chat = injectSocketIo('chat');
 const notifications = injectSocketIo('notifications');
 ```
 
+---
+
 ## Native Socket.IO client
 
 ```ts
@@ -307,6 +347,8 @@ native.timeout(5000).emit('ping', () => {});
 ```
 
 Throws during SSR or after destruction. Prefer library methods when available.
+
+---
 
 ## SSR guidance
 
@@ -317,15 +359,20 @@ Socket.IO needs browser networking APIs. This library:
 - Makes `fromEvent` / `on` / `once` return `EMPTY` on the server
 - No-ops `connect` / `emit` on the server
 - Throws a clear error if `getSocket()` is called during SSR
-- Keeps disconnect/connect reusable in the browser (no zombie client after logout)
+- Keeps disconnect/connect reusable in the browser
 
-Prefer Signals or the `async` pipe in zoneless apps so UI updates stay in Angular's notification model.
+Prefer Signals or the `async` pipe in zoneless apps.
+
+---
 
 ## Testing
 
 ```ts
 import { provideSocketIo, SocketIoService } from 'ngxsmk-socket-io';
-import { createMockSocketFactory, SOCKET_IO_CLIENT_FACTORY } from 'ngxsmk-socket-io/testing';
+import {
+  createMockSocketFactory,
+  SOCKET_IO_CLIENT_FACTORY,
+} from 'ngxsmk-socket-io/testing';
 
 const { factory, latest } = createMockSocketFactory();
 
@@ -341,13 +388,16 @@ socket.connect();
 latest().emit('message', { id: '1', text: 'hi' });
 ```
 
+---
+
 ## Common pitfalls addressed
 
-Checked against closed issues from [`ngx-socket-io`](https://github.com/rodgc/ngx-socket-io/issues?q=is%3Aissue+state%3Aclosed):
+Checked against closed issues from
+[`ngx-socket-io`](https://github.com/rodgc/ngx-socket-io/issues?q=is%3Aissue+state%3Aclosed):
 
 | Topic | Status in `ngxsmk-socket-io` |
 | --- | --- |
-| SSR / inject during SSR hang | Safe — no socket created on server |
+| SSR / inject during SSR hang | Safe - no socket created on server |
 | `provideSocketIo` missing service | Service is always registered with the provider |
 | Missed initial `connect` event | Replayed for late `connect$` / `fromEvent('connect')` subscribers |
 | Manual / conditional connect | `autoConnect: false` + `connect()` / `authenticateAndConnect()` |
@@ -360,6 +410,8 @@ Checked against closed issues from [`ngx-socket-io`](https://github.com/rodgc/ng
 | Self-signed certs in browser | Not possible in browsers; Node TLS options pass through under Node |
 | Zoneless / no Zone.js | Library does not depend on Zone.js; Signals are first-class |
 | Recreate drops listeners | `fromEvent` re-attaches after `recreateSocket` / `updateConfig` |
+
+---
 
 ## API reference
 
@@ -376,37 +428,37 @@ Checked against closed issues from [`ngx-socket-io`](https://github.com/rodgc/ng
 | `SocketIoConfig` | Configuration interface |
 | `SOCKET_IO_CONFIG` | Config injection token |
 | `SOCKET_IO_CLIENT_FACTORY` | Overridable client factory (also used in tests) |
-| `SocketConnectionState` | `disconnected \| connecting \| connected \| reconnecting \| error` |
+| `SocketConnectionState` | Connection state union |
 | `createMockSocketFactory` | From `ngxsmk-socket-io/testing` |
 
-### SocketIoService — connection
+### SocketIoService - connection
 
 | Member | Description |
 | --- | --- |
 | `connect()` / `open()` | Open the connection |
 | `disconnect()` / `close()` | Close without destroying the service |
 | `isConnected()` | Imperative connected flag |
-| `updateConfig(partial, { reconnect? })` | Merge config; recreate by default |
+| `updateConfig(partial, options?)` | Merge config; recreate by default |
 | `recreateSocket(autoConnect?)` | Tear down and create a fresh client |
 | `of(namespace)` | Namespace-scoped `SocketIoService` |
 | `getSocket()` | Native `socket.io-client` instance |
 | `getConfig()` | Read-only config snapshot |
 
-### SocketIoService — emit / listen
+### SocketIoService - emit / listen
 
 | Member | Description |
 | --- | --- |
-| `emit(event, …args)` | Typed emit |
-| `emitWithAck(event, …args)` | Promise acknowledgement |
+| `emit(event, ...args)` | Typed emit |
+| `emitWithAck(event, ...args)` | Promise acknowledgement |
 | `timeout(ms)` | Timed `emit` / `emitWithAck` helpers |
 | `fromEvent(event)` / `on(event)` | Shared Observable stream |
 | `once(event)` | First event, then complete |
 | `off(event)` | Remove listeners for an event |
 | `removeAllListeners(event?)` | Clear one or all tracked streams |
 | `setAuth(auth)` | Update handshake auth |
-| `authenticateAndConnect(auth)` | setAuth + (re)connect |
+| `authenticateAndConnect(auth)` | `setAuth` + (re)connect |
 
-### SocketIoService — state
+### SocketIoService - state
 
 | Member | Description |
 | --- | --- |
@@ -419,39 +471,50 @@ Checked against closed issues from [`ngx-socket-io`](https://github.com/rodgc/ng
 | `connectError$` / `error$` | Handshake / general errors |
 | `reconnectAttempt$` / `reconnect$` / `reconnectError$` / `reconnectFailed$` | Manager reconnect lifecycle |
 
+---
+
 ## Demo documentation app
 
 Interactive docs live in `projects/demo`:
 
 | Route | Page |
 | --- | --- |
-| `/` | Overview — install and standalone bootstrap |
-| `/guide` | Guide — first patterns (typing, lifecycle, multi-socket, tests) |
+| `/` | Overview - install and standalone bootstrap |
+| `/guide` | Guide - typing, lifecycle, multi-socket, tests |
 | `/playground` | Live chat against the example server |
-| `/api` | **Advanced** — every feature explained with snippets |
+| `/api` | Advanced - every feature explained with snippets |
 
 ```bash
-# terminal 1 – example Socket.IO server
+# terminal 1 - example Socket.IO server
 npm run example:server
 
-# terminal 2 – docs site
+# terminal 2 - docs site
 npm start
 ```
 
-Open `http://localhost:4200`.
+Open [http://localhost:4200](http://localhost:4200).
 
-See [docs/demo.md](docs/demo.md) for local setup and **GitHub Pages** (host `examples/chat-server` on HTTPS — Pages cannot run Node).
+See [docs/demo.md](docs/demo.md) for local setup and GitHub Pages
+(host `examples/chat-server` on HTTPS - Pages cannot run Node).
+
+---
 
 ## Browser support
 
-Follows `socket.io-client` browser support. Prefer modern evergreen browsers. Configure `transports`
-explicitly when needed (`['websocket', 'polling']` is a good default behind proxies).
+Follows `socket.io-client` browser support. Prefer modern evergreen browsers.
+Configure `transports` explicitly when needed (`['websocket', 'polling']` is a good default
+behind proxies).
+
+---
 
 ## Versioning
 
-This package follows semantic versioning. The current release is `0.1.0` (initial public development).
+Semantic versioning. Current release: **0.1.0**.
 
-Breaking changes are documented in [`CHANGELOG.md`](projects/ngxsmk-socket-io/CHANGELOG.md).
+Breaking changes are documented in
+[`projects/ngxsmk-socket-io/CHANGELOG.md`](projects/ngxsmk-socket-io/CHANGELOG.md).
+
+---
 
 ## Security notes
 
@@ -460,12 +523,16 @@ Breaking changes are documented in [`CHANGELOG.md`](projects/ngxsmk-socket-io/CH
 - Validate event payloads on the server; this client does not sanitize message bodies
 - Treat realtime input as untrusted
 
+---
+
 ## Contributing
 
 1. Fork and clone the repository
 2. Run `npm install`
 3. Use `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
 4. Open a pull request with a clear description
+
+---
 
 ## Scripts
 
@@ -485,8 +552,8 @@ npm run format:check
 npm run validate           # lint + typecheck + test + build + size + format
 ```
 
+---
+
 ## License
 
 MIT
-#   n g x s m k - s o c k e t - i o  
- 
