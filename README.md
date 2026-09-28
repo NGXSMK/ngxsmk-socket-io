@@ -17,6 +17,29 @@ runtime reconfiguration, and SSR-safe defaults.
 
 ---
 
+## Compatibility
+
+Supports **Angular 16+** (Signals / `DestroyRef` floor) and **Ionic Angular 7–9** on matching Angular versions.
+
+| Angular | Status |
+| --- | --- |
+| 16 / 17 / 18 / 19 / 20 | Supported + CI matrix |
+| 21 / 22 | Open peer (`>=16`) |
+
+| Ionic | Status |
+| --- | --- |
+| v8 / v9 | Supported |
+| v7 | Supported when the app uses Angular 16–17 |
+| v6 and older | Not supported (Angular ≤15) |
+
+Full details and Ionic setup: [docs/COMPATIBILITY.md](docs/COMPATIBILITY.md).
+
+```bash
+npm run validate:angular-matrix
+```
+
+---
+
 ## Features
 
 | Feature | What it does |
@@ -51,8 +74,8 @@ npm install ngxsmk-socket-io socket.io-client
 
 | Package | Version |
 | --- | --- |
-| `@angular/core` | `>=17` |
-| `@angular/common` | `>=17` |
+| `@angular/core` | `>=16` |
+| `@angular/common` | `>=16` |
 | `rxjs` | `>=7.8` |
 | `socket.io-client` | `^4` |
 
@@ -549,7 +572,9 @@ npm run typecheck
 npm run size               # FESM size budget
 npm run format
 npm run format:check
-npm run validate           # lint + typecheck + test + build + size + format
+npm run validate:consumer
+npm run validate:angular-matrix   # typecheck vs Angular 16-20
+npm run validate                  # lint + typecheck + test + build + size + format
 ```
 
 ---

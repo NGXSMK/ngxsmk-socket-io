@@ -48,24 +48,56 @@ jobs:
         run: npm run validate:consumer
         if: matrix.node-version == '22.x'
 
-  # Lightweight forward-compat signal: peer range must stay open for modern Angular.
+  angular-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        angular: ['16', '17', '18', '19', '20']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install workspace
+        run: npm ci
+
+      - name: Build library
+        run: npm run build
+
+      - name: Typecheck against Angular ${{ matrix.angular }}
+        run: node scripts/validate-angular-matrix.mjs --angular=${{ matrix.angular }}
+
   peer-range:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Assert Angular peer range
+      - name: Assert Angular peer range (16+ for Signals / Ionic)
         run: |
           node -e "
           const pkg = require('./projects/ngxsmk-socket-io/package.json');
           const peers = pkg.peerDependencies || {};
           for (const name of ['@angular/core', '@angular/common']) {
             const range = peers[name];
-            if (!range || !String(range).includes('>=17')) {
-              console.error('Expected', name, 'peer to allow >=17, got', range);
+            if (!range || !String(range).includes('>=16')) {
+              console.error('Expected', name, 'peer to allow >=16, got', range);
               process.exit(1);
             }
             console.log('✓', name, range);
           }
+          const keywords = pkg.keywords || [];
+          for (const key of ['ionic', 'capacitor', 'angular16']) {
+            if (!keywords.includes(key)) {
+              console.error('Missing keyword:', key);
+              process.exit(1);
+            }
+          }
+          console.log('✓ ionic/capacitor keywords present');
           "

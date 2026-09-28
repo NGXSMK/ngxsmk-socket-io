@@ -1,12 +1,20 @@
 {
   "name": "ngxsmk-socket-io",
   "version": "0.1.0",
-  "description": "Modern Angular Socket.IO library — provideSocketIo, typed events, Signals, RxJS Observables, emitWithAck, namespaces, and SSR-safe defaults",
+  "description": "Modern Angular Socket.IO library — provideSocketIo, typed events, Signals, RxJS Observables, emitWithAck, namespaces, and SSR-safe defaults. Angular 16+ / Ionic 7–9.",
   "license": "MIT",
   "author": "Sachin",
   "keywords": [
     "angular",
+    "angular16",
+    "angular17",
+    "angular18",
+    "angular19",
+    "angular20",
     "angular-library",
+    "ionic",
+    "ionic-angular",
+    "capacitor",
     "socket.io",
     "socketio",
     "socket.io-client",
@@ -32,9 +40,12 @@
     "url": "https://github.com/SMK-WEB-Projects/ngxsmk-socket-io/issues"
   },
   "homepage": "https://smk-web-projects.github.io/ngxsmk-socket-io/",
+  "engines": {
+    "node": ">=18.13.0"
+  },
   "peerDependencies": {
-    "@angular/common": ">=17.0.0",
-    "@angular/core": ">=17.0.0",
+    "@angular/common": ">=16.0.0",
+    "@angular/core": ">=16.0.0",
     "rxjs": ">=7.8.0",
     "socket.io-client": "^4.0.0"
   },

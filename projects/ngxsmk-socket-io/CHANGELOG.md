@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lazy lifecycle Subjects to reduce idle allocations
 - SSR-safe browser-only Socket.IO initialization
 - Secondary entry `ngxsmk-socket-io/testing` with mock Socket.IO helpers
+- Angular peer range `>=16` with CI matrix for Angular 16–20
+- Ionic Angular 7–9 compatibility guide (`docs/COMPATIBILITY.md`)
 - Demo documentation app (Overview, Guide, Playground, Advanced feature walkthrough)
 - Bundle size budget (`npm run size`), peer-range CI check, and GitHub Actions CI
 - GitHub Pages workflow + configurable hosted Socket.IO URL for the playground

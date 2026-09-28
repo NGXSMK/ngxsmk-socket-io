@@ -1,11 +1,14 @@
 # ngxsmk-socket-io
 
-Modern Angular integration for Socket.IO — DI providers, typed events, RxJS + Signals, acks,
+Modern Angular integration for Socket.IO - DI providers, typed events, RxJS + Signals, acks,
 namespaces, SSR-safe defaults, and a testing entry.
 
-Full documentation (features explained, API tables, pitfalls, demo):
+**Angular 16+** · **Ionic Angular 7–9** (on supported Angular versions)
+
+Full documentation:
 
 - **Live docs:** https://smk-web-projects.github.io/ngxsmk-socket-io/
+- **Compatibility:** https://github.com/SMK-WEB-Projects/ngxsmk-socket-io/blob/main/docs/COMPATIBILITY.md
 - **Repo README:** https://github.com/SMK-WEB-Projects/ngxsmk-socket-io#readme
 
 ## Install
@@ -14,7 +17,7 @@ Full documentation (features explained, API tables, pitfalls, demo):
 npm install ngxsmk-socket-io socket.io-client
 ```
 
-**Peers:** `@angular/core` ≥17 · `@angular/common` ≥17 · `rxjs` ≥7.8 · `socket.io-client` ^4
+**Peers:** `@angular/core` ≥16 · `@angular/common` ≥16 · `rxjs` ≥7.8 · `socket.io-client` ^4
 
 ## Quick start
 
@@ -38,6 +41,24 @@ socket.fromEvent('message').subscribe(console.log);
 socket.emit('sendMessage', { text: 'Hello' });
 ```
 
+## Ionic (standalone)
+
+```ts
+import { provideIonicAngular } from '@ionic/angular/standalone';
+import { provideSocketIo } from 'ngxsmk-socket-io';
+
+export const appConfig = {
+  providers: [
+    provideIonicAngular(),
+    provideSocketIo({
+      url: 'https://api.example.com',
+      autoConnect: false,
+      options: { transports: ['websocket', 'polling'] },
+    }),
+  ],
+};
+```
+
 ## Feature overview
 
 | Area | APIs |
@@ -47,7 +68,7 @@ socket.emit('sendMessage', { text: 'Hello' });
 | State | `connected`, `recovered`, `connectionState` (+ `$` Observables) |
 | Lifecycle | `connect$`, `disconnect$`, `connectError$`, reconnect streams |
 | Auth | `setAuth`, `authenticateAndConnect` |
-| Multi-socket | named `provideSocketIo(name, …)`, `of(namespace)` |
+| Multi-socket | named `provideSocketIo(name, ...)`, `of(namespace)` |
 | Runtime | `updateConfig`, `recreateSocket`, `getConfig`, `getSocket` |
 | Testing | `ngxsmk-socket-io/testing` → `createMockSocketFactory` |
 
