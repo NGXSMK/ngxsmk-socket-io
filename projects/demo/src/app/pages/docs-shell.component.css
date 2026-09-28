@@ -1,0 +1,130 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.rail {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 1.4rem 1.1rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1.5rem;
+  background: linear-gradient(180deg, #07121f 0%, #0d2233 100%);
+  color: #d7e8ee;
+}
+
+.brand {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand__mark {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+  background: var(--signal);
+  box-shadow: 0 0 0 6px rgba(25, 198, 198, 0.18);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.brand strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  letter-spacing: -0.03em;
+}
+
+.brand small {
+  color: #8eb4c4;
+}
+
+nav {
+  display: grid;
+  gap: 0.35rem;
+  align-content: start;
+}
+
+nav a {
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  color: #b7d0da;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+nav a:hover,
+nav a.active {
+  background: rgba(25, 198, 198, 0.12);
+  color: #fff;
+}
+
+.rail__foot {
+  padding: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.rail__foot p {
+  margin: 0 0 0.55rem;
+  color: #8eb4c4;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.rail__foot code {
+  display: block;
+  color: var(--signal);
+  font-size: 0.78rem;
+}
+
+.stage {
+  min-width: 0;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.86);
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .rail {
+    position: relative;
+    height: auto;
+    grid-template-rows: auto;
+  }
+
+  nav {
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
+    overflow-x: auto;
+  }
+
+  .rail__foot {
+    display: none;
+  }
+}

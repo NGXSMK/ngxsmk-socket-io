@@ -1,0 +1,45 @@
+{
+  "name": "ngxsmk-socket-io",
+  "version": "0.1.0",
+  "description": "Modern Angular Socket.IO library — provideSocketIo, typed events, Signals, RxJS Observables, emitWithAck, namespaces, and SSR-safe defaults",
+  "license": "MIT",
+  "author": "Sachin",
+  "keywords": [
+    "angular",
+    "angular-library",
+    "socket.io",
+    "socketio",
+    "socket.io-client",
+    "websocket",
+    "realtime",
+    "rxjs",
+    "signals",
+    "ngx",
+    "ngxsmk",
+    "provideSocketIo",
+    "injectSocketIo",
+    "typescript",
+    "ssr",
+    "ack",
+    "emitWithAck",
+    "namespace"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SMK-WEB-Projects/ngxsmk-socket-io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SMK-WEB-Projects/ngxsmk-socket-io/issues"
+  },
+  "homepage": "https://smk-web-projects.github.io/ngxsmk-socket-io/",
+  "peerDependencies": {
+    "@angular/common": ">=17.0.0",
+    "@angular/core": ">=17.0.0",
+    "rxjs": ">=7.8.0",
+    "socket.io-client": "^4.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

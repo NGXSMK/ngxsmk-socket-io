@@ -1,0 +1,36 @@
+<div class="shell">
+  <aside class="rail">
+    <a class="brand" routerLink="/">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span>
+        <strong>ngxsmk-socket-io</strong>
+        <small>Angular docs</small>
+      </span>
+    </a>
+
+    <nav aria-label="Documentation">
+      @for (link of links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: link.exact }"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+
+    <div class="rail__foot">
+      @if (production) {
+        <p>Playground needs a hosted HTTPS Socket.IO server — paste the URL on the Playground page.</p>
+      } @else {
+        <p>Start the example server for live sockets:</p>
+        <code>npm run example:server</code>
+      }
+    </div>
+  </aside>
+
+  <div class="stage" id="main-content" tabindex="-1">
+    <router-outlet />
+  </div>
+</div>

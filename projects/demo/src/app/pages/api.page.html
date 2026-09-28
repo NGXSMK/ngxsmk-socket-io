@@ -1,0 +1,298 @@
+<main class="page">
+  <section class="hero" style="min-height: auto; padding-bottom: 1.2rem">
+    <p class="hero__brand" style="font-size: clamp(1.8rem, 4vw, 2.8rem)">Advanced</p>
+    <h1>Every feature explained.</h1>
+    <p class="hero__lead">
+      Full walkthrough of providers, typing, emit/ack, lifecycle, namespaces, runtime config, SSR,
+      and testing — with copy-ready snippets under each topic.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>1. Providers and DI</h2>
+    <p>
+      Register Socket.IO once at application bootstrap. The library wires
+      <code>SocketIoService</code>, config tokens, and an overridable client factory into Angular DI.
+    </p>
+    <ul class="feature-list">
+      <li>
+        <strong>provideSocketIo(config)</strong> — default unnamed socket for
+        <code>inject(SocketIoService)</code> / <code>injectSocketIo()</code>.
+      </li>
+      <li>
+        <strong>provideSocketIo(name, config)</strong> — named instance; inject with
+        <code>injectSocketIo('chat')</code>. Use when chat and notifications use different hosts or
+        namespaces.
+      </li>
+      <li>
+        <strong>SocketIoModule.forRoot / forFeature</strong> — same model for NgModule apps.
+      </li>
+      <li>
+        <strong>injectSocketIo&lt;Listen, Emit&gt;()</strong> — typed helper; optional name argument.
+      </li>
+    </ul>
+    <app-code-block title="providers.ts" [code]="providers" />
+  </section>
+
+  <section class="section">
+    <h2>2. SocketIoConfig</h2>
+    <p>
+      Configuration is a thin Angular wrapper around the official client. Unknown option keys still
+      pass through to <code>socket.io-client</code>.
+    </p>
+    <ul class="feature-list">
+      <li><strong>url</strong> — scheme + host[:port]. Trailing slashes are stripped.</li>
+      <li>
+        <strong>namespace</strong> — e.g. <code>/chat</code>. Appended correctly; do not put the
+        namespace in <code>url</code> when using this field (and do not confuse it with Engine.IO
+        <code>path</code>).
+      </li>
+      <li>
+        <strong>autoConnect</strong> — default <code>true</code> in the browser. Set
+        <code>false</code> for login-gated or playground-style Connect buttons. Ignored during SSR
+        (nothing connects on the server).
+      </li>
+      <li>
+        <strong>options</strong> — auth, transports, reconnection, timeout, path, query,
+        withCredentials, forceNew, closeOnBeforeunload, Node TLS fields, etc.
+      </li>
+    </ul>
+    <app-code-block title="provideSocketIo" [code]="config" />
+  </section>
+
+  <section class="section">
+    <h2>3. Strongly typed events</h2>
+    <p>
+      Mirror Socket.IO’s event-map pattern. Listen maps describe server→client handlers; emit maps
+      describe client→server handlers (including optional ack callbacks).
+    </p>
+    <ul class="feature-list">
+      <li>Wrong event names fail TypeScript where possible.</li>
+      <li>Payload shapes are checked on <code>emit</code> / <code>fromEvent</code>.</li>
+      <li>Ack argument types flow into <code>emitWithAck</code> result types.</li>
+    </ul>
+    <app-code-block title="typed-service.ts" [code]="typedService" />
+  </section>
+
+  <section class="section">
+    <h2>4. Connection control</h2>
+    <p>
+      When <code>autoConnect</code> is false (or after logout), drive the socket explicitly. The
+      service instance stays alive across disconnect/connect so you do not lose DI wiring.
+    </p>
+    <ul class="feature-list">
+      <li><strong>connect / open</strong> — start connecting; safe if already connected.</li>
+      <li><strong>disconnect / close</strong> — close the transport; call connect again later.</li>
+      <li>
+        <strong>isConnected()</strong> — imperative boolean. Prefer the
+        <code>connected</code> Signal in templates.
+      </li>
+      <li>
+        With <code>autoConnect: true</code>, <code>emit</code> will nudge an inactive client to
+        reconnect so payloads are not silently dropped.
+      </li>
+    </ul>
+    <app-code-block title="connection.ts" [code]="connection" />
+  </section>
+
+  <section class="section">
+    <h2>5. Emit, acknowledgements, and timeouts</h2>
+    <p>
+      Fire-and-forget emits use <code>emit</code>. When the server replies with an ack callback,
+      prefer Promise-based helpers instead of nesting callbacks.
+    </p>
+    <ul class="feature-list">
+      <li><strong>emit(event, …args)</strong> — typed outbound event.</li>
+      <li>
+        <strong>emitWithAck(event, …args)</strong> — returns a Promise that resolves with the
+        server acknowledgement.
+      </li>
+      <li>
+        <strong>timeout(ms)</strong> — returns
+        <code>{{ '{ emit, emitWithAck }' }}</code> bound to that deadline; ack Promises reject if
+        the server is too slow.
+      </li>
+    </ul>
+    <app-code-block title="ack.ts" [code]="ack" />
+  </section>
+
+  <section class="section">
+    <h2>6. Listening to events</h2>
+    <p>
+      Listeners are Observables so they compose with RxJS and Angular’s
+      <code>takeUntilDestroyed</code> / async pipe.
+    </p>
+    <ul class="feature-list">
+      <li>
+        <strong>fromEvent / on</strong> — shared stream; one native listener; removed when the last
+        subscriber unsubscribes
+        (<code>share({{ '{' }} resetOnRefCountZero: true {{ '}' }})</code>).
+      </li>
+      <li><strong>once</strong> — first matching event, then completes.</li>
+      <li>
+        <strong>off / removeAllListeners</strong> — drop tracked streams and native listeners.
+      </li>
+      <li>
+        After <code>recreateSocket</code>, active <code>fromEvent</code> subscriptions re-attach to
+        the new client automatically.
+      </li>
+      <li>
+        <code>fromEvent('connect')</code> / <code>once('connect')</code> replay when already
+        connected (same idea as <code>connect$</code>).
+      </li>
+    </ul>
+    <app-code-block title="listeners.ts" [code]="listeners" />
+  </section>
+
+  <section class="section">
+    <h2>7. Lifecycle Signals and streams</h2>
+    <p>
+      Connection UI should read Signals. Side effects and joins should subscribe to Observables.
+      Both stay in sync — Observables are mirrors of the Signals via <code>toObservable</code>.
+    </p>
+    <ul class="feature-list">
+      <li>
+        <strong>connected</strong> — whether the socket is currently connected.
+      </li>
+      <li>
+        <strong>recovered</strong> — Socket.IO connection state recovery succeeded on the last
+        connect.
+      </li>
+      <li>
+        <strong>connectionState</strong> —
+        <code>disconnected | connecting | connected | reconnecting | error</code>.
+      </li>
+      <li>
+        <strong>connect$</strong> — emits on every successful connect <em>and</em> immediately for
+        late subscribers if already connected (so <code>joinRoom</code> is not missed).
+      </li>
+      <li>
+        <strong>disconnect$ / connectError$ / error$</strong> — transport and handshake failures.
+      </li>
+      <li>
+        <strong>reconnectAttempt$ / reconnect$ / reconnectError$ / reconnectFailed$</strong> —
+        Manager-level reconnection lifecycle.
+      </li>
+    </ul>
+    <app-code-block title="lifecycle.ts" [code]="lifecycle" />
+  </section>
+
+  <section class="section">
+    <h2>8. Authentication</h2>
+    <p>
+      Credentials go in Socket.IO <code>auth</code> (handshake), not in ad-hoc query strings unless
+      your server requires that.
+    </p>
+    <ul class="feature-list">
+      <li><strong>options.auth</strong> at provide time for known tokens.</li>
+      <li><strong>setAuth(auth)</strong> — update credentials for the next (re)connect.</li>
+      <li>
+        <strong>authenticateAndConnect(auth)</strong> — set auth and (re)connect in one step after
+        async login.
+      </li>
+      <li>Never log auth payloads. Prefer short-lived tokens.</li>
+    </ul>
+    <app-code-block title="auth.ts" [code]="auth" />
+  </section>
+
+  <section class="section">
+    <h2>9. Namespaces and multiple sockets</h2>
+    <p>
+      Two patterns: separate DI registrations (different URLs or long-lived endpoints), or
+      <code>of(namespace)</code> to fork a namespace from an existing service.
+    </p>
+    <ul class="feature-list">
+      <li>
+        <strong>Named provideSocketIo</strong> — true multi-socket; each has its own service and
+        lifecycle.
+      </li>
+      <li>
+        <strong>of('/admin')</strong> — returns a <code>SocketIoService</code> scoped to that
+        namespace (cached per parent).
+      </li>
+      <li>
+        Namespace ≠ Engine.IO <code>path</code>. Path stays in <code>options.path</code>
+        (default <code>/socket.io</code>).
+      </li>
+    </ul>
+    <app-code-block title="namespaces.ts" [code]="namespaces" />
+  </section>
+
+  <section class="section">
+    <h2>10. Runtime config and recreate</h2>
+    <p>
+      When the URL, region, or auth is only known after bootstrap (tenant switch, feature flag),
+      update config without tearing down the whole Angular app.
+    </p>
+    <ul class="feature-list">
+      <li>
+        <strong>updateConfig(partial, &#123; reconnect &#125;)</strong> — merges URL / namespace /
+        options. Default <code>reconnect: true</code> recreates and connects.
+      </li>
+      <li>
+        <strong>recreateSocket(autoConnect?)</strong> — tear down the native client and build a
+        fresh one with the current config.
+      </li>
+      <li>
+        <strong>getConfig()</strong> — read-only snapshot for debugging or UI.
+      </li>
+    </ul>
+    <app-code-block title="updateConfig.ts" [code]="runtimeConfig" />
+  </section>
+
+  <section class="section">
+    <h2>11. Native client escape hatch</h2>
+    <p>
+      Most apps never need this. When you must call a Socket.IO API that is not wrapped yet, use
+      <code>getSocket()</code>.
+    </p>
+    <ul class="feature-list">
+      <li>Returns the official <code>socket.io-client</code> instance.</li>
+      <li>Throws during SSR or after the service is destroyed.</li>
+      <li>Prefer library methods when they exist so typing and lifecycle stay consistent.</li>
+    </ul>
+    <app-code-block title="native.ts" [code]="native" />
+  </section>
+
+  <section class="section">
+    <h2>12. SSR and prerender</h2>
+    <p>
+      Socket.IO needs browser networking. The library uses <code>isPlatformBrowser</code> so
+      Universal / prerender builds do not hang or open sockets on the server.
+    </p>
+    <ul class="feature-list">
+      <li>No client is created during SSR.</li>
+      <li>Listen APIs return <code>EMPTY</code>; connect/emit are no-ops on the server.</li>
+      <li>Prefer <code>autoConnect: false</code> when the URL depends on client-only state.</li>
+      <li>DestroyRef cleans up listeners when the owning injector is destroyed.</li>
+    </ul>
+    <app-code-block title="ssr.ts" [code]="ssr" />
+  </section>
+
+  <section class="section">
+    <h2>13. Testing (<code>ngxsmk-socket-io/testing</code>)</h2>
+    <p>
+      Replace the real client factory with mocks so unit tests never open network sockets.
+    </p>
+    <ul class="feature-list">
+      <li>
+        <strong>createMockSocketFactory()</strong> — returns <code>factory</code>,
+        <code>state</code>, and <code>latest()</code>.
+      </li>
+      <li>
+        Provide <code>&#123; provide: SOCKET_IO_CLIENT_FACTORY, useValue: factory &#125;</code>
+        alongside <code>provideSocketIo</code>.
+      </li>
+      <li>
+        Drive inbound events with <code>latest().emit('message', payload)</code> (mock socket).
+      </li>
+    </ul>
+    <app-code-block title="socket.spec.ts" [code]="testing" />
+  </section>
+
+  <section class="section">
+    <h2>14. Public surface cheat sheet</h2>
+    <p>Everything most production apps need from the package root and service instance.</p>
+    <app-code-block title="exports" [code]="surface" />
+  </section>
+</main>

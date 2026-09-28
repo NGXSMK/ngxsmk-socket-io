@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build library
+        run: npm run build
+
+      - name: Bundle size budget
+        run: npm run size
+
+      - name: Consumer package validation
+        run: npm run validate:consumer
+        if: matrix.node-version == '22.x'
+
+  # Lightweight forward-compat signal: peer range must stay open for modern Angular.
+  peer-range:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assert Angular peer range
+        run: |
+          node -e "
+          const pkg = require('./projects/ngxsmk-socket-io/package.json');
+          const peers = pkg.peerDependencies || {};
+          for (const name of ['@angular/core', '@angular/common']) {
+            const range = peers[name];
+            if (!range || !String(range).includes('>=17')) {
+              console.error('Expected', name, 'peer to allow >=17, got', range);
+              process.exit(1);
+            }
+            console.log('✓', name, range);
+          }
+          "

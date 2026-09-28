@@ -1,0 +1,12 @@
+{
+  "ignore": [
+    "dist",
+    "coverage",
+    "out-tsc",
+    "node_modules",
+    "package-lock.json",
+    ".angular",
+    "examples/chat-server/node_modules",
+    "examples/consumer/node_modules"
+  ]
+}

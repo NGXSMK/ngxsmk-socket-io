@@ -1,0 +1,69 @@
+:root {
+  --ink: #07121f;
+  --ink-soft: #143049;
+  --paper: #eef6f8;
+  --paper-dim: #d7e8ee;
+  --signal: #19c6c6;
+  --signal-deep: #0e8f8f;
+  --warn: #ef8b4a;
+  --danger: #e35d6a;
+  --ok: #3ecf8e;
+  --line: rgba(7, 18, 31, 0.12);
+  --glow: rgba(25, 198, 198, 0.28);
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 18px;
+  --shadow: 0 24px 60px rgba(7, 18, 31, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 12% -10%, rgba(25, 198, 198, 0.22), transparent 42%),
+    radial-gradient(circle at 90% 8%, rgba(62, 207, 142, 0.14), transparent 36%),
+    linear-gradient(180deg, #f4fbfd 0%, var(--paper) 48%, #e5f0f4 100%);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: var(--signal-deep);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

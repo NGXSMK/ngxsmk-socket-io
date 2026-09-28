@@ -1,0 +1,37 @@
+<main class="page">
+  <section class="hero" style="min-height: auto; padding-bottom: 1.2rem">
+    <p class="hero__brand" style="font-size: clamp(1.8rem, 4vw, 2.8rem)">Guide</p>
+    <h1>Patterns you’ll reach for first.</h1>
+    <p class="hero__lead">
+      Copy-ready snippets for typing, lifecycle, multiple sockets, and tests. For the full feature
+      walkthrough (acks, recreate, SSR, native client), open
+      <a routerLink="/api">Advanced</a>.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>Strongly typed events</h2>
+    <p>Define server/client maps once, then let TypeScript catch bad event names and payloads.</p>
+    <app-code-block title="typed-events.ts" [code]="typed" />
+  </section>
+
+  <section class="section">
+    <h2>Lifecycle and auth</h2>
+    <p>
+      Prefer Signals for connection UI. Use <code>authenticateAndConnect</code> after async login.
+    </p>
+    <app-code-block title="lifecycle.ts" [code]="lifecycle" />
+  </section>
+
+  <section class="section">
+    <h2>Multiple sockets</h2>
+    <p>Named providers keep chat and notification endpoints isolated.</p>
+    <app-code-block title="multi-socket.ts" [code]="multi" />
+  </section>
+
+  <section class="section">
+    <h2>Testing</h2>
+    <p>Swap the client factory with the published testing helpers.</p>
+    <app-code-block title="socket.spec.ts" [code]="testing" />
+  </section>
+</main>

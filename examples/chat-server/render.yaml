@@ -1,0 +1,14 @@
+# Example chat server for Render
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: ngxsmk-socket-io-chat
+    runtime: node
+    rootDir: examples/chat-server
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: 3000

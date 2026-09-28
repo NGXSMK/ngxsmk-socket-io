@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://smk-web-projects.github.io/ngxsmk-socket-io/sitemap.xml

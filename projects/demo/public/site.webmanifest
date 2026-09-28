@@ -1,0 +1,17 @@
+{
+  "name": "ngxsmk-socket-io",
+  "short_name": "ngxsmk-socket-io",
+  "description": "Angular Socket.IO docs and live playground",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#e8f4f2",
+  "theme_color": "#0b1c24",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ]
+}

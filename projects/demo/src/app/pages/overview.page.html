@@ -1,0 +1,49 @@
+<main class="page">
+  <section class="hero">
+    <p class="hero__brand">ngxsmk-socket-io</p>
+    <h1>Modern Angular sockets, documented by example.</h1>
+    <p class="hero__lead">
+      Typed Socket.IO for standalone Angular apps — RxJS streams, Signals, SSR-safe defaults, and a
+      small public API.
+    </p>
+    <div class="hero__actions">
+      <a class="btn" routerLink="/playground">Open playground</a>
+      <a class="btn btn--ghost" routerLink="/api">Advanced API</a>
+      <a class="btn btn--ghost" routerLink="/guide">Read the guide</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Install</h2>
+    <p>Add the library and the official Socket.IO client peer dependency.</p>
+    <app-code-block title="terminal" [code]="install" />
+  </section>
+
+  <section class="section">
+    <h2>Standalone setup</h2>
+    <p>Register once with <code>provideSocketIo</code> — no NgModule required.</p>
+    <app-code-block title="main.ts" [code]="bootstrap" />
+  </section>
+
+  <section class="section section--split">
+    <div>
+      <h2>What this demo covers</h2>
+      <ul>
+        <li>Guide — first patterns for typing, lifecycle, and multi-socket</li>
+        <li>Playground — live connect, chat, <code>emitWithAck</code>, auth</li>
+        <li>Advanced — every feature explained with snippets</li>
+        <li>SSR-safe defaults, Signals, and testing helpers</li>
+      </ul>
+    </div>
+    <div class="callout">
+      <strong>Need a server?</strong>
+      <p>
+        Locally: run <code>npm run example:server</code>, then Connect from the playground.
+      </p>
+      <p>
+        On GitHub Pages: host <code>examples/chat-server</code> on HTTPS (Render/Railway/Fly), paste
+        that URL in the playground, or bake it with <code>SOCKET_URL</code> when building.
+      </p>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="ngxsmk-socket-io">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07202a"/>
+      <stop offset="55%" stop-color="#0b3a42"/>
+      <stop offset="100%" stop-color="#145a55"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="78%" cy="22%" r="45%">
+      <stop offset="0%" stop-color="#19c6c6" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#19c6c6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <text x="72" y="250" fill="#e8fbfb" font-family="Sora, Segoe UI, sans-serif" font-size="72" font-weight="700">ngxsmk-socket-io</text>
+  <text x="72" y="330" fill="#9fd6d4" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="36">Angular · Socket.IO · Signals · RxJS</text>
+  <text x="72" y="520" fill="#7eb8b5" font-family="IBM Plex Mono, Consolas, monospace" font-size="28">provideSocketIo · emitWithAck · SSR-safe</text>
+</svg>

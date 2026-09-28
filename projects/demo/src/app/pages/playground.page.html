@@ -1,0 +1,128 @@
+<main class="page">
+  <section class="hero" style="min-height: auto; padding-bottom: 1rem">
+    <p class="hero__brand" style="font-size: clamp(1.8rem, 4vw, 2.8rem)">Playground</p>
+    <h1>Live Socket.IO against the example server.</h1>
+    <p class="hero__lead">{{ serverHint() }}</p>
+    <div class="hero__actions">
+      <span class="status" [attr.data-state]="connectionState()">
+        {{ connectionState() }} · connected {{ connected() }}
+        @if (recovered()) {
+          · recovered
+        }
+      </span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Connection controls</h2>
+    <label class="field" style="display: block; margin-bottom: 1rem">
+      Server URL
+      <input
+        type="url"
+        name="serverUrl"
+        placeholder="https://your-chat-server.onrender.com"
+        [ngModel]="serverUrl()"
+        (ngModelChange)="serverUrl.set($event)"
+        [disabled]="busy() || connected()"
+        autocomplete="off"
+      />
+    </label>
+    <p style="margin: -0.4rem 0 1rem; opacity: 0.75; font-size: 0.92rem">
+      GitHub Pages cannot run Node. Host <code>examples/chat-server</code> on HTTPS, then paste the
+      URL here (or bake it with <code>SOCKET_URL</code> at build time).
+    </p>
+    <div class="toolbar">
+      <button
+        type="button"
+        class="btn btn--signal"
+        [disabled]="busy() || connected()"
+        (click)="connect()"
+      >
+        Connect
+      </button>
+      <button
+        type="button"
+        class="btn btn--ghost"
+        [disabled]="!connected()"
+        (click)="disconnect()"
+      >
+        Disconnect
+      </button>
+      <button
+        type="button"
+        class="btn btn--ghost"
+        [disabled]="!connected()"
+        (click)="pingAck()"
+      >
+        emitWithAck ping
+      </button>
+    </div>
+    <p style="margin-top: 0.8rem">Ack result: <code>{{ ackResult() }}</code></p>
+
+    <div class="grid-2" style="margin-top: 1rem">
+      <label class="field">
+        Display name
+        <input type="text" [ngModel]="username()" (ngModelChange)="username.set($event)" />
+      </label>
+      <label class="field">
+        Auth token
+        <input type="text" [ngModel]="token()" (ngModelChange)="token.set($event)" />
+      </label>
+    </div>
+    <button type="button" class="btn" [disabled]="busy()" (click)="applyAuth()">
+      authenticateAndConnect
+    </button>
+  </section>
+
+  <section class="section grid-2">
+    <div>
+      <h2>Chat</h2>
+      <div class="panel">
+        <ul class="log" aria-live="polite">
+          @for (message of messages(); track message.id) {
+            <li>
+              <div class="meta">
+                <strong>{{ message.user }}</strong>
+                <time>{{ message.timestamp | date: 'shortTime' }}</time>
+              </div>
+              <div>{{ message.text }}</div>
+            </li>
+          } @empty {
+            <li>No messages yet. Connect, then send one.</li>
+          }
+        </ul>
+
+        <form class="composer" (ngSubmit)="sendMessage()">
+          <input
+            type="text"
+            name="draft"
+            placeholder="Write a message"
+            [ngModel]="draft()"
+            (ngModelChange)="draft.set($event)"
+            [disabled]="!connected()"
+            autocomplete="off"
+          />
+          <button type="submit" class="btn" [disabled]="!connected()">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <div>
+      <h2>Lifecycle</h2>
+      <div class="panel">
+        <ul class="log">
+          @for (entry of lifecycle(); track entry.id) {
+            <li>
+              <div class="meta">
+                <strong>{{ entry.label }}</strong>
+                <time>{{ entry.at | date: 'mediumTime' }}</time>
+              </div>
+            </li>
+          } @empty {
+            <li>Connect to see lifecycle events stream in.</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
