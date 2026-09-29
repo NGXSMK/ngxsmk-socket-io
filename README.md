@@ -549,28 +549,6 @@ Breaking changes are documented in
 
 ---
 
-## Scripts
-
-```bash
-npm run build              # build the library
-npm run build:demo         # build the docs app
-npm run build:docs:gh      # GitHub Pages build (optional SOCKET_URL)
-npm start                  # serve docs demo
-npm run example:server     # example Socket.IO chat server
-npm test
-npm run test:watch
-npm run lint
-npm run typecheck
-npm run size               # FESM size budget
-npm run format
-npm run format:check
-npm run validate:consumer
-npm run validate:angular-matrix   # typecheck vs Angular 16-20
-npm run validate                  # lint + typecheck + test + build + size + format
-```
-
----
-
 ## License
 
 MIT
