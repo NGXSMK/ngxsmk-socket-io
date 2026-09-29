@@ -4,14 +4,14 @@ Minimal Socket.IO server used by the docs playground (`projects/demo`).
 
 ## Events
 
-| Direction | Event | Payload |
-| --- | --- | --- |
-| Client → server | `joinRoom` | `string` room name |
-| Client → server | `sendMessage` | `{ text, user }` |
-| Client → server | `ping` | `{ id }` + optional ack |
-| Server → client | `userJoined` | `{ id, name }` |
-| Server → client | `message` | `{ id, text, user, timestamp }` |
-| Server → client | `pong` | `{ ok, at, echo }` |
+| Direction       | Event         | Payload                         |
+| --------------- | ------------- | ------------------------------- |
+| Client → server | `joinRoom`    | `string` room name              |
+| Client → server | `sendMessage` | `{ text, user }`                |
+| Client → server | `ping`        | `{ id }` + optional ack         |
+| Server → client | `userJoined`  | `{ id, name }`                  |
+| Server → client | `message`     | `{ id, text, user, timestamp }` |
+| Server → client | `pong`        | `{ ok, at, echo }`              |
 
 On connect the socket joins room `general` and receives a `userJoined` event.
 

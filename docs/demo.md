@@ -4,12 +4,12 @@ The Angular app in `projects/demo` is the interactive documentation site for `ng
 
 ## Pages
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Overview — brand, install, standalone bootstrap |
-| `/guide` | Guide — first patterns (typed events, lifecycle, multi-socket, testing) |
-| `/playground` | Live chat + Server URL + connect / ack / lifecycle log |
-| `/api` | **Advanced** — every feature explained (config, acks, recreate, namespaces, SSR, testing) |
+| Route         | Purpose                                                                                   |
+| ------------- | ----------------------------------------------------------------------------------------- |
+| `/`           | Overview — brand, install, standalone bootstrap                                           |
+| `/guide`      | Guide — first patterns (typed events, lifecycle, multi-socket, testing)                   |
+| `/playground` | Live chat + Server URL + connect / ack / lifecycle log                                    |
+| `/api`        | **Advanced** — every feature explained (config, acks, recreate, namespaces, SSR, testing) |
 
 ## Features covered in Advanced (`/api`)
 

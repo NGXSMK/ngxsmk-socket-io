@@ -12,7 +12,8 @@
     <h2>1. Providers and DI</h2>
     <p>
       Register Socket.IO once at application bootstrap. The library wires
-      <code>SocketIoService</code>, config tokens, and an overridable client factory into Angular DI.
+      <code>SocketIoService</code>, config tokens, and an overridable client factory into Angular
+      DI.
     </p>
     <ul class="feature-list">
       <li>
@@ -24,11 +25,10 @@
         <code>injectSocketIo('chat')</code>. Use when chat and notifications use different hosts or
         namespaces.
       </li>
+      <li><strong>SocketIoModule.forRoot / forFeature</strong> — same model for NgModule apps.</li>
       <li>
-        <strong>SocketIoModule.forRoot / forFeature</strong> — same model for NgModule apps.
-      </li>
-      <li>
-        <strong>injectSocketIo&lt;Listen, Emit&gt;()</strong> — typed helper; optional name argument.
+        <strong>injectSocketIo&lt;Listen, Emit&gt;()</strong> — typed helper; optional name
+        argument.
       </li>
     </ul>
     <app-code-block title="providers.ts" [code]="providers" />
@@ -104,13 +104,12 @@
     <ul class="feature-list">
       <li><strong>emit(event, …args)</strong> — typed outbound event.</li>
       <li>
-        <strong>emitWithAck(event, …args)</strong> — returns a Promise that resolves with the
-        server acknowledgement.
+        <strong>emitWithAck(event, …args)</strong> — returns a Promise that resolves with the server
+        acknowledgement.
       </li>
       <li>
-        <strong>timeout(ms)</strong> — returns
-        <code>{{ '{ emit, emitWithAck }' }}</code> bound to that deadline; ack Promises reject if
-        the server is too slow.
+        <strong>timeout(ms)</strong> — returns <code>{{ '{ emit, emitWithAck }' }}</code> bound to
+        that deadline; ack Promises reject if the server is too slow.
       </li>
     </ul>
     <app-code-block title="ack.ts" [code]="ack" />
@@ -125,8 +124,7 @@
     <ul class="feature-list">
       <li>
         <strong>fromEvent / on</strong> — shared stream; one native listener; removed when the last
-        subscriber unsubscribes
-        (<code>share({{ '{' }} resetOnRefCountZero: true {{ '}' }})</code>).
+        subscriber unsubscribes (<code>share({{ '{' }} resetOnRefCountZero: true {{ '}' }})</code>).
       </li>
       <li><strong>once</strong> — first matching event, then completes.</li>
       <li>
@@ -151,9 +149,7 @@
       Both stay in sync — Observables are mirrors of the Signals via <code>toObservable</code>.
     </p>
     <ul class="feature-list">
-      <li>
-        <strong>connected</strong> — whether the socket is currently connected.
-      </li>
+      <li><strong>connected</strong> — whether the socket is currently connected.</li>
       <li>
         <strong>recovered</strong> — Socket.IO connection state recovery succeeded on the last
         connect.
@@ -211,8 +207,8 @@
         namespace (cached per parent).
       </li>
       <li>
-        Namespace ≠ Engine.IO <code>path</code>. Path stays in <code>options.path</code>
-        (default <code>/socket.io</code>).
+        Namespace ≠ Engine.IO <code>path</code>. Path stays in <code>options.path</code> (default
+        <code>/socket.io</code>).
       </li>
     </ul>
     <app-code-block title="namespaces.ts" [code]="namespaces" />
@@ -233,9 +229,7 @@
         <strong>recreateSocket(autoConnect?)</strong> — tear down the native client and build a
         fresh one with the current config.
       </li>
-      <li>
-        <strong>getConfig()</strong> — read-only snapshot for debugging or UI.
-      </li>
+      <li><strong>getConfig()</strong> — read-only snapshot for debugging or UI.</li>
     </ul>
     <app-code-block title="updateConfig.ts" [code]="runtimeConfig" />
   </section>
@@ -271,17 +265,16 @@
 
   <section class="section">
     <h2>13. Testing (<code>ngxsmk-socket-io/testing</code>)</h2>
-    <p>
-      Replace the real client factory with mocks so unit tests never open network sockets.
-    </p>
+    <p>Replace the real client factory with mocks so unit tests never open network sockets.</p>
     <ul class="feature-list">
       <li>
         <strong>createMockSocketFactory()</strong> — returns <code>factory</code>,
         <code>state</code>, and <code>latest()</code>.
       </li>
       <li>
-        Provide <code>&#123; provide: SOCKET_IO_CLIENT_FACTORY, useValue: factory &#125;</code>
-        alongside <code>provideSocketIo</code>.
+        Provide
+        <code>&#123; provide: SOCKET_IO_CLIENT_FACTORY, useValue: factory &#125;</code> alongside
+        <code>provideSocketIo</code>.
       </li>
       <li>
         Drive inbound events with <code>latest().emit('message', payload)</code> (mock socket).
