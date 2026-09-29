@@ -38,14 +38,22 @@ See [docs/demo.md](docs/demo.md) and [docs/COMPATIBILITY.md](docs/COMPATIBILITY.
 
 ## Publishing
 
+Publish the **built library** (not the workspace root):
+
 ```bash
-npm run lint
-npm run typecheck
-npm test
 npm run build
-cd dist/ngxsmk-socket-io
-npm publish
+npm publish ./dist/ngxsmk-socket-io --access public
 ```
+
+Or:
+
+```bash
+npm run publish:lib
+```
+
+Do **not** use `npm publish --prefix dist/...` from the repo root — newer npm still resolves the private workspace `package.json` and fails with `EPRIVATE`.
+
+If npm asks for a one-time password / browser auth (2FA), complete that prompt in your terminal.
 
 Do not publish without reviewing the library changelog and bumping the version in
 `projects/ngxsmk-socket-io/package.json`.
