@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - 2026-09-28
+## [1.0.0] - 2026-09-29
 
 ### Added
 
-- Initial public development release of `ngxsmk-socket-io`
+- First stable release of `ngxsmk-socket-io`
 - `provideSocketIo` standalone provider API (default and named sockets)
 - `SocketIoModule.forRoot` / `forFeature` NgModule API
 - `SocketIoService` with RxJS event streams, connection lifecycle, Signals, auth helpers, and native client access
@@ -38,3 +38,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Auth updates without losing reconnectability after disconnect
 - Trailing slash normalization on base URLs
 - Shared `fromEvent` listener cleanup with ref-counted `share`
+- `fromEvent` re-attaches after `recreateSocket` / `updateConfig`
+
+## [0.1.0] - 2026-09-28
+
+### Added
+
+- Initial public development release (superseded by 1.0.0)

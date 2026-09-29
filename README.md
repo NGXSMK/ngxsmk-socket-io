@@ -532,7 +532,7 @@ behind proxies).
 
 ## Versioning
 
-Semantic versioning. Current release: **0.1.0**.
+Semantic versioning. Current release: **1.0.0**.
 
 Breaking changes are documented in
 [`projects/ngxsmk-socket-io/CHANGELOG.md`](projects/ngxsmk-socket-io/CHANGELOG.md).

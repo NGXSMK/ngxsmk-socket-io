@@ -1,7 +1,7 @@
 {
   "name": "ngxsmk-socket-io-chat-server",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Example Socket.IO server for the ngxsmk-socket-io demo",
   "main": "server.js",
   "scripts": {

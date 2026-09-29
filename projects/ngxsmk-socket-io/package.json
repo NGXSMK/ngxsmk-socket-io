@@ -1,6 +1,6 @@
 {
   "name": "ngxsmk-socket-io",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Modern Angular Socket.IO library — provideSocketIo, typed events, Signals, RxJS Observables, emitWithAck, namespaces, and SSR-safe defaults. Angular 16+ / Ionic 7–9.",
   "license": "MIT",
   "author": "Sachin",
