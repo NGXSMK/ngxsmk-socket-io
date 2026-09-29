@@ -29,8 +29,7 @@ export const DOC_SEO_PAGES: readonly DocSeoPage[] = [
     title: 'Live playground — connect, chat, emitWithAck | ngxsmk-socket-io',
     description:
       'Try ngxsmk-socket-io in the browser: connect to a Socket.IO server, send chat messages, authenticate, and verify emitWithAck acknowledgements.',
-    keywords:
-      'socket.io playground, angular realtime demo, emitWithAck, socket.io chat example',
+    keywords: 'socket.io playground, angular realtime demo, emitWithAck, socket.io chat example',
   },
   {
     path: 'api',

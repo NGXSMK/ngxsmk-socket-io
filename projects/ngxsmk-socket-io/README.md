@@ -61,16 +61,16 @@ export const appConfig = {
 
 ## Feature overview
 
-| Area | APIs |
-| --- | --- |
-| Providers | `provideSocketIo`, `SocketIoModule.forRoot` / `forFeature`, `injectSocketIo` |
-| Emit / listen | `emit`, `emitWithAck`, `timeout`, `fromEvent`, `on`, `once`, `off` |
-| State | `connected`, `recovered`, `connectionState` (+ `$` Observables) |
-| Lifecycle | `connect$`, `disconnect$`, `connectError$`, reconnect streams |
-| Auth | `setAuth`, `authenticateAndConnect` |
-| Multi-socket | named `provideSocketIo(name, ...)`, `of(namespace)` |
-| Runtime | `updateConfig`, `recreateSocket`, `getConfig`, `getSocket` |
-| Testing | `ngxsmk-socket-io/testing` → `createMockSocketFactory` |
+| Area          | APIs                                                                         |
+| ------------- | ---------------------------------------------------------------------------- |
+| Providers     | `provideSocketIo`, `SocketIoModule.forRoot` / `forFeature`, `injectSocketIo` |
+| Emit / listen | `emit`, `emitWithAck`, `timeout`, `fromEvent`, `on`, `once`, `off`           |
+| State         | `connected`, `recovered`, `connectionState` (+ `$` Observables)              |
+| Lifecycle     | `connect$`, `disconnect$`, `connectError$`, reconnect streams                |
+| Auth          | `setAuth`, `authenticateAndConnect`                                          |
+| Multi-socket  | named `provideSocketIo(name, ...)`, `of(namespace)`                          |
+| Runtime       | `updateConfig`, `recreateSocket`, `getConfig`, `getSocket`                   |
+| Testing       | `ngxsmk-socket-io/testing` → `createMockSocketFactory`                       |
 
 ## Typed events
 

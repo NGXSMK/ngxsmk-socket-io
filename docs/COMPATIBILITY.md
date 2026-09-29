@@ -7,26 +7,26 @@ and the Ionic Angular majors that run on those Angular versions.
 
 The library uses:
 
-| API | Minimum Angular |
-| --- | --- |
-| `signal()` / `WritableSignal` | 16 |
-| `DestroyRef` | 16 |
-| `toObservable(..., { injector })` | 16 |
-| `makeEnvironmentProviders` / `provideSocketIo` | 15 |
-| `inject()` | 14 |
+| API                                            | Minimum Angular |
+| ---------------------------------------------- | --------------- |
+| `signal()` / `WritableSignal`                  | 16              |
+| `DestroyRef`                                   | 16              |
+| `toObservable(..., { injector })`              | 16              |
+| `makeEnvironmentProviders` / `provideSocketIo` | 15              |
+| `inject()`                                     | 14              |
 
 Signals and `DestroyRef` set the floor at **Angular 16**. Older Angular apps should stay on a
 legacy Socket.IO wrapper, or upgrade Angular (recommended).
 
 ## Angular support matrix
 
-| Angular | Peer range | CI matrix | Notes |
-| --- | --- | --- | --- |
-| 16.x | ✅ | ✅ | Minimum supported |
-| 17.x | ✅ | ✅ | |
-| 18.x | ✅ | ✅ | |
-| 19.x | ✅ | ✅ | Workspace builds on 19 |
-| 20.x | ✅ | ✅ | |
+| Angular     | Peer range       | CI matrix   | Notes                         |
+| ----------- | ---------------- | ----------- | ----------------------------- |
+| 16.x        | ✅               | ✅          | Minimum supported             |
+| 17.x        | ✅               | ✅          |                               |
+| 18.x        | ✅               | ✅          |                               |
+| 19.x        | ✅               | ✅          | Workspace builds on 19        |
+| 20.x        | ✅               | ✅          |                               |
 | 21.x / 22.x | ✅ (peer `>=16`) | best-effort | Open peer; report regressions |
 
 Declared peers:
@@ -53,12 +53,12 @@ node scripts/validate-angular-matrix.mjs --angular=18
 
 Ionic Angular tracks Angular. With Angular 16+ peers, the library covers:
 
-| Ionic Angular | Angular range (Ionic policy) | `ngxsmk-socket-io` |
-| --- | --- | --- |
-| **v9** | Angular 18 → 22 | ✅ use Angular 18+ |
-| **v8** | Angular 16 → 20 | ✅ |
-| **v7** | Angular 14 → 17 | ✅ when the app uses Angular **16 or 17** |
-| v6 and older | Angular ≤15 | ❌ below Signals / DestroyRef floor |
+| Ionic Angular | Angular range (Ionic policy) | `ngxsmk-socket-io`                        |
+| ------------- | ---------------------------- | ----------------------------------------- |
+| **v9**        | Angular 18 → 22              | ✅ use Angular 18+                        |
+| **v8**        | Angular 16 → 20              | ✅                                        |
+| **v7**        | Angular 14 → 17              | ✅ when the app uses Angular **16 or 17** |
+| v6 and older  | Angular ≤15                  | ❌ below Signals / DestroyRef floor       |
 
 ### Ionic usage (standalone)
 
@@ -113,12 +113,12 @@ export class ChatService {
 
 ## Runtime / tooling
 
-| Tooling | Notes |
-| --- | --- |
+| Tooling                 | Notes                                                           |
+| ----------------------- | --------------------------------------------------------------- |
 | Ivy partial compilation | Library ships partial-Ivy (ng-packagr) for all Angular 16+ apps |
-| Zone.js | Optional — Signals work zoneless / Ionic standalone |
-| SSR / Angular Universal | Supported — no socket created on the server |
-| Node (CI / apps) | Follow the Angular version’s Node requirements |
+| Zone.js                 | Optional — Signals work zoneless / Ionic standalone             |
+| SSR / Angular Universal | Supported — no socket created on the server                     |
+| Node (CI / apps)        | Follow the Angular version’s Node requirements                  |
 
 ## Reporting gaps
 

@@ -53,7 +53,9 @@ const onlyId = onlyArg ? onlyArg.slice('--angular='.length) : null;
 const selected = onlyId ? MATRIX.filter((entry) => entry.id === onlyId) : MATRIX;
 
 if (onlyId && selected.length === 0) {
-  console.error(`Unknown Angular matrix id "${onlyId}". Expected one of: ${MATRIX.map((m) => m.id).join(', ')}`);
+  console.error(
+    `Unknown Angular matrix id "${onlyId}". Expected one of: ${MATRIX.map((m) => m.id).join(', ')}`,
+  );
   process.exit(1);
 }
 

@@ -5,10 +5,7 @@
     <p class="hero__lead">{{ serverHint() }}</p>
     <div class="hero__actions">
       <span class="status" [attr.data-state]="connectionState()">
-        {{ connectionState() }} · connected {{ connected() }}
-        @if (recovered()) {
-          · recovered
-        }
+        {{ connectionState() }} · connected {{ connected() }} @if (recovered()) { · recovered }
       </span>
     </div>
   </section>
@@ -40,20 +37,10 @@
       >
         Connect
       </button>
-      <button
-        type="button"
-        class="btn btn--ghost"
-        [disabled]="!connected()"
-        (click)="disconnect()"
-      >
+      <button type="button" class="btn btn--ghost" [disabled]="!connected()" (click)="disconnect()">
         Disconnect
       </button>
-      <button
-        type="button"
-        class="btn btn--ghost"
-        [disabled]="!connected()"
-        (click)="pingAck()"
-      >
+      <button type="button" class="btn btn--ghost" [disabled]="!connected()" (click)="pingAck()">
         emitWithAck ping
       </button>
     </div>
@@ -80,15 +67,15 @@
       <div class="panel">
         <ul class="log" aria-live="polite">
           @for (message of messages(); track message.id) {
-            <li>
-              <div class="meta">
-                <strong>{{ message.user }}</strong>
-                <time>{{ message.timestamp | date: 'shortTime' }}</time>
-              </div>
-              <div>{{ message.text }}</div>
-            </li>
+          <li>
+            <div class="meta">
+              <strong>{{ message.user }}</strong>
+              <time>{{ message.timestamp | date: 'shortTime' }}</time>
+            </div>
+            <div>{{ message.text }}</div>
+          </li>
           } @empty {
-            <li>No messages yet. Connect, then send one.</li>
+          <li>No messages yet. Connect, then send one.</li>
           }
         </ul>
 
@@ -112,14 +99,14 @@
       <div class="panel">
         <ul class="log">
           @for (entry of lifecycle(); track entry.id) {
-            <li>
-              <div class="meta">
-                <strong>{{ entry.label }}</strong>
-                <time>{{ entry.at | date: 'mediumTime' }}</time>
-              </div>
-            </li>
+          <li>
+            <div class="meta">
+              <strong>{{ entry.label }}</strong>
+              <time>{{ entry.at | date: 'mediumTime' }}</time>
+            </div>
+          </li>
           } @empty {
-            <li>Connect to see lifecycle events stream in.</li>
+          <li>Connect to see lifecycle events stream in.</li>
           }
         </ul>
       </div>
